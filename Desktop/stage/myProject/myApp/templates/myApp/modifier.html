@@ -1,0 +1,55 @@
+{% extends "myApp/base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4">✏️ Modifier Stagiaire</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label>Nom</label>
+        <input type="text" name="nom" class="form-control" value="{{ stagiaire.nom }}">
+      </div>
+      <div class="col-md-6">
+        <label>Prénom</label>
+        <input type="text" name="prenom" class="form-control" value="{{ stagiaire.prenom }}">
+      </div>
+      <div class="col-md-6">
+        <label>Email</label>
+        <input type="email" name="email" class="form-control" value="{{ stagiaire.email }}">
+      </div>
+      <div class="col-md-6">
+        <label>Téléphone</label>
+        <input type="text" name="telephone" class="form-control" value="{{ stagiaire.telephone }}">
+      </div>
+      <div class="col-md-6">
+        <label>Université</label>
+        <input type="text" name="universite" class="form-control" value="{{ stagiaire.universite }}">
+      </div>
+      <div class="col-md-6">
+        <label>Projet</label>
+        <input type="text" name="projet" class="form-control" value="{{ stagiaire.projet }}">
+      </div>
+      <div class="col-md-6">
+        <label>Type de stage</label>
+        <select name="type_stage" class="form-select">
+          <option {% if stagiaire.type_stage == "Initiation" %}selected{% endif %}>Initiation</option>
+          <option {% if stagiaire.type_stage == "Observation" %}selected{% endif %}>Observation</option>
+          <option {% if stagiaire.type_stage == "Technicien" %}selected{% endif %}>Technicien</option>
+          <option {% if stagiaire.type_stage == "PFE" %}selected{% endif %}>PFE</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label>Date début</label>
+        <input type="date" name="date_debut" class="form-control" value="{{ stagiaire.date_debut|date:'Y-m-d' }}">
+      </div>
+      <div class="col-md-6">
+        <label>Date fin</label>
+        <input type="date" name="date_fin" class="form-control" value="{{ stagiaire.date_fin|date:'Y-m-d' }}">
+      </div>
+    </div>
+    <div class="mt-4 text-center">
+      <button class="btn btn-primary">💾 Enregistrer les modifications</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

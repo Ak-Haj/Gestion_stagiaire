@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+
+    <title>Gestion de stagiaire</title>
+
+    <style>
+      /* Couleur principale personnalisée */
+      :root {
+        --bs-primary: #007bff;
+        --bs-primary-hover: #0056b3;
+      }
+
+      /* Navbar sticky + ombre */
+      nav.navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1030;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        transition: background-color 0.3s ease;
+      }
+
+      /* Logo navbar */
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--bs-primary);
+        letter-spacing: 1px;
+      }
+      .navbar-brand:hover {
+        color: var(--bs-primary-hover);
+        text-decoration: none;
+      }
+
+      /* Nav links style */
+      .nav-link {
+        font-weight: 500;
+        color: #555;
+        transition: color 0.3s ease;
+      }
+      .nav-link:hover,
+      .nav-link.active {
+        color: var(--bs-primary);
+      }
+
+      /* Bouton hamburger animé */
+      .navbar-toggler {
+        border: none;
+        outline: none;
+      }
+      .navbar-toggler-icon {
+        transition: transform 0.3s ease;
+      }
+      .navbar-toggler.collapsed .navbar-toggler-icon {
+        transform: rotate(0deg);
+      }
+      .navbar-toggler:not(.collapsed) .navbar-toggler-icon {
+        transform: rotate(90deg);
+      }
+
+      /* Formulaire recherche */
+      form.d-flex input.form-control {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        transition: box-shadow 0.3s ease;
+      }
+      form.d-flex input.form-control:focus {
+        box-shadow: 0 0 5px var(--bs-primary);
+        border-color: var(--bs-primary);
+      }
+      form.d-flex button.btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      /* Footer simple */
+      footer {
+        background-color: #f8f9fa;
+        padding: 15px 0;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 40px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">StagiairePro</a>
+        <button
+          class="navbar-toggler collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'home' %}"
+                >Accueil</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'stagiaire' %}">Liste stagiaires</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'archive' %}">Stagiaires archivés</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'ajouter' %}">Ajouter stagiaire</a>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link text-danger" href="{% url 'logout' %}">Déconnexion</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Connexion</a>
+            </li>
+            {% endif %}
+          </ul>
+
+          <form class="d-flex" role="search" method="GET" action="{% url 'stagiaire' %}">
+            <input
+              class="form-control me-2"
+              name="q"
+              type="search"
+              placeholder="Rechercher un stagiaire..."
+              aria-label="Search"
+            />
+            <button class="btn btn-primary" type="submit">Rechercher</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+   
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

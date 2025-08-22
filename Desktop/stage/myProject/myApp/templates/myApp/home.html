@@ -1,0 +1,160 @@
+{% extends "myApp/base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accueil - Gestion des Stagiaires</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0d6efd, #3b82f6);
+      color: white;
+      padding: 100px 0;
+      text-align: center;
+      border-bottom-left-radius: 50px;
+      border-bottom-right-radius: 50px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: bold;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-top: 15px;
+    }
+
+    .btn-custom {
+      margin: 20px 10px 0 10px;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      background-color: #ffffff;
+      color: #0d6efd;
+      border: 2px solid #ffffff;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn-custom:hover {
+      background-color: #e8f0ff;
+      border-color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .features {
+      padding: 80px 0;
+    }
+
+    .feature-card {
+      background: #ffffff;
+      border: none;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #0d6efd;
+    }
+
+    footer {
+      background-color: #f8f9fa;
+      padding: 20px 0;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero animate__animated animate__fadeInDown">
+    <div class="container">
+      <h1>🎓 Gestion des Stagiaires</h1>
+      <p>Une solution simple, rapide et intuitive pour gérer vos stagiaires.</p>
+      <div class="mt-4">
+        <a href="{% url 'stagiaire' %}" class="btn btn-custom">
+          📋 Liste des Stagiaires
+        </a>
+        <a href="{% url 'archive' %}" class="btn btn-custom">
+          🗄️ Archives
+        </a>
+        <a href="{% url 'dashboard' %}" class="btn btn-custom me-2">📊 Voir le Dashboard</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-5">🔧 Fonctionnalités Principales</h2>
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="feature-card text-center">
+            <div class="feature-icon">👤</div>
+            <h5>Gestion des utilisateurs</h5>
+            <p>Accès sécurisé avec authentification par mot de passe.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="feature-card text-center">
+            <div class="feature-icon">🗂️</div>
+            <h5>Création des stagiaires</h5>
+            <p>Ajoutez des stagiaires avec plusieurs périodes de stage.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="feature-card text-center">
+            <div class="feature-icon">📅</div>
+            <h5>Suivi et alertes</h5>
+            <p>Planification des points de suivi avec rappels automatiques.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="feature-card text-center">
+            <div class="feature-icon">📦</div>
+            <h5>Archivage automatique</h5>
+            <p>Archivage intelligent des stages terminés.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Notifications Réunions du jour -->
+{% if reunions_du_jour %}
+<div class="alert alert-info text-center mt-3 animate__animated animate__fadeInDown">
+    📅 <strong>Réunions d'aujourd'hui :</strong><br>
+    {% for reunion in reunions_du_jour %}
+        - {{ reunion.titre }} avec {{ reunion.stagiaire.nom }} {{ reunion.stagiaire.prenom }}
+          à {{ reunion.date|date:"H:i" }}<br>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-success text-center mt-3 animate__animated animate__fadeInDown">
+    ✅ Aucune réunion prévue aujourd'hui.
+</div>
+{% endif %}
+
+  <!-- Footer -->
+  <footer class="text-center text-muted">
+    &copy; 2025 - Application de Gestion de Stagiaires. Tous droits réservés.
+  </footer>
+
+</body>
+</html>
+{% endblock %}

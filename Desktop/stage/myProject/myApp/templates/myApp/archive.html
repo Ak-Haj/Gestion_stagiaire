@@ -1,0 +1,135 @@
+{% extends "myApp/base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stagiaires Archivés</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <style>
+    body {
+      background: #1e1e2f;
+      color: #f1f1f1;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: 700;
+      margin: 50px 0 30px;
+      color: #0dcaf0;
+    }
+
+    .search-box {
+      max-width: 400px;
+      margin: 0 auto 30px;
+    }
+
+    .search-box input {
+      border-radius: 10px;
+      background-color: #343a40;
+      color: #f1f1f1;
+      border: 1px solid #495057;
+    }
+
+    .table-archived {
+      background: #2c2f3f;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    th {
+      background-color: #0d6efd;
+      color: white;
+      font-weight: bold;
+      vertical-align: middle !important;
+    }
+
+    td {
+      vertical-align: middle !important;
+      color: #dee2e6;
+    }
+
+    tr:hover {
+      background-color: #3a3f5c;
+    }
+
+    .btn-sm {
+      margin: 2px;
+      font-size: 0.8rem;
+      padding: 5px 8px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="animate__animated animate__fadeInDown">📁 Stagiaires Archivés</h1>
+
+    <div class="search-box text-center">
+      <input type="text" id="searchInput" class="form-control form-control-lg shadow-sm" placeholder="🔍 Rechercher un stagiaire..." />
+    </div>
+
+    <div class="table-responsive animate__animated animate__fadeInUp">
+      <table class="table table-hover table-bordered text-center table-archived" id="archiveTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Université</th>
+            <th>Projet</th>
+            <th>Type</th>
+            <th>Date Début</th>
+            <th>Date Fin</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for stagiaire in stagiaires %}
+          <tr>
+            <td>{{ stagiaire.id }}</td>
+            <td>{{ stagiaire.nom }}</td>
+            <td>{{ stagiaire.prenom }}</td>
+            <td>{{ stagiaire.email }}</td>
+            <td>{{ stagiaire.telephone }}</td>
+            <td>{{ stagiaire.universite }}</td>
+            <td>{{ stagiaire.projet }}</td>
+            <td>{{ stagiaire.type_stage }}</td>
+            <td>{{ stagiaire.date_debut }}</td>
+            <td>{{ stagiaire.date_fin }}</td>
+            <td>
+              <a href="{% url 'restaurer_stagiaire' stagiaire.id %}" class="btn btn-success btn-sm">🔁</a>
+              <a href="{% url 'supprimer_stagiaire' stagiaire.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Confirmer la suppression ?');">🗑️</a>
+              <a href="{% url 'consulter_reunions' stagiaire.id %}" class="btn btn-info btn-sm">📅</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="11" class="text-center text-light">Aucun stagiaire archivé.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("keyup", function () {
+      const filter = this.value.toLowerCase();
+      const rows = document.querySelectorAll("#archiveTable tbody tr");
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+      });
+    });
+  </script>
+</body>
+</html>
+{% endblock %}
